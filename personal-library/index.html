@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07131f" />
+    <meta name="description" content="A desktop app for saving and reading articles, web serials, EPUBs and PDFs. Your library stays on your computer and works offline." />
+    <link rel="canonical" href="https://williamdiao.com/personal-library/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://williamdiao.com/personal-library/" />
+    <meta property="og:title" content="Personal Library" />
+    <meta property="og:description" content="A desktop app for saving and reading articles, web serials, EPUBs and PDFs. Your library stays on your computer and works offline." />
+    <meta property="og:image" content="https://williamdiao.com/personal-library/assets/web-capture.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Personal Library</title>
+    <link rel="stylesheet" href="./styles.css?v=4" />
+    <link rel="stylesheet" href="/comet-demo/download.css?v=library-1" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <a href="/">William Diao</a>
+      <a href="https://github.com/Williamdiao48/Personal-Library">Source on GitHub</a>
+    </header>
+
+    <main id="main">
+      <section class="intro" aria-labelledby="title">
+        <h1 id="title">Personal Library</h1>
+        <p class="lede">Save articles, web serials, EPUBs and PDFs, and read them offline. Everything stays on your computer.</p>
+        <div class="library-download" id="library-download" data-repo="Williamdiao48/Personal-Library" data-install-help="#install">
+          <div class="download-grid">
+            <a class="download-option" href="https://github.com/Williamdiao48/Personal-Library/releases/latest"><span class="download-label"><strong>All downloads</strong><span>Mac, Windows, Linux</span></span></a>
+          </div>
+          <p class="download-note"><a href="#install">First-launch steps</a></p>
+        </div>
+      </section>
+
+      <section class="feature" aria-labelledby="save">
+        <h2 id="save">Save from the web</h2>
+        <p>Paste a link and the app downloads the page, strips out the clutter and keeps a clean copy. Multi-chapter stories download all at once. There are dedicated parsers for Archive of Our Own, FanFiction.net, Royal Road, Wattpad and others, and a general one for everything else.</p>
+        <figure>
+          <video src="./assets/web-capture.webm" poster="./assets/web-capture.jpg" width="960" height="600" muted loop playsinline preload="none" aria-label="Saving a news article and a fanfiction at the same time, then opening one in the reader"></video>
+        </figure>
+      </section>
+
+      <section class="feature" aria-labelledby="read">
+        <h2 id="read">Read</h2>
+        <p>Web pages, EPUBs and PDFs each open in their own reader. Change the font, size, spacing, page width and theme, and read by scrolling or page by page. Select any word to look it up in the built-in dictionary, which works offline.</p>
+        <figure>
+          <video src="./assets/reading-formats.webm" poster="./assets/reading-formats.jpg" width="960" height="600" muted loop playsinline preload="none" aria-label="Reading a PDF and an EPUB, looking up a word and switching the theme"></video>
+        </figure>
+      </section>
+
+      <section class="feature" aria-labelledby="notes">
+        <h2 id="notes">Highlight and take notes</h2>
+        <p>Highlight passages in four colours, attach notes and add bookmarks in every reader. One page collects all your highlights across the library, where you can filter them, group them and export them as Markdown or plain text.</p>
+        <figure>
+          <video src="./assets/annotations.webm" poster="./assets/annotations.jpg" width="900" height="562" muted loop playsinline preload="none" aria-label="Highlighting text in a book, then browsing highlights from the whole library"></video>
+        </figure>
+      </section>
+
+      <section class="feature" aria-labelledby="search">
+        <h2 id="search">Search everything</h2>
+        <p>Search covers the full text of everything you've saved, not just titles, and matches partial words as you type. Tags, collections and reading status keep the rest organised.</p>
+        <figure>
+          <video src="./assets/search.webm" poster="./assets/search.jpg" width="900" height="562" muted loop playsinline preload="none" aria-label="Typing a search and watching results filter as you type"></video>
+        </figure>
+      </section>
+
+      <section class="feature" aria-labelledby="discover">
+        <h2 id="discover">Find something new</h2>
+        <p>The Discover page suggests fanfiction and books based on what's already in your library, using AO3, FanFiction.net and Open Library. The matching runs on your computer, so your reading history isn't sent anywhere.</p>
+        <figure>
+          <video src="./assets/discover.webm" poster="./assets/discover.jpg" width="960" height="600" muted loop playsinline preload="none" aria-label="The Discover page showing suggestions, then refreshing for a new set"></video>
+        </figure>
+      </section>
+
+      <section class="feature" aria-labelledby="sync">
+        <h2 id="sync">Sync, if you want it</h2>
+        <p>A free account keeps tags, collections, progress and highlights in sync between computers within a few seconds. Book files are uploaded only for the items you choose. Without an account, nothing leaves your computer.</p>
+        <figure>
+          <video src="./assets/sync.webm" poster="./assets/sync.jpg" width="960" height="600" muted loop playsinline preload="none" aria-label="Signing in and watching the library sync onto the shelf"></video>
+        </figure>
+      </section>
+
+      <section class="install" id="install" aria-labelledby="install-title">
+        <h2 id="install-title">Installing</h2>
+        <p>The app isn't code-signed yet, so macOS and Windows warn you the first time you open it.</p>
+        <dl>
+          <div>
+            <dt>macOS</dt>
+            <dd>Open the <code>.dmg</code> and drag the app into Applications. Right-click the app, choose Open, then click Open again. You only need to do this once. Updates are manual on macOS: download the new version and replace the app.</dd>
+          </div>
+          <div>
+            <dt>Windows</dt>
+            <dd>Run the installer. If you see &ldquo;Windows protected your PC&rdquo;, click More info, then Run anyway. The app offers updates when it starts.</dd>
+          </div>
+          <div>
+            <dt>Linux</dt>
+            <dd>Make the AppImage executable with <code>chmod +x</code> and run it. The app offers updates when it starts.</dd>
+          </div>
+        </dl>
+        <p>Your library is kept in the app's data folder and survives updates and reinstalls. Settings &rarr; Data &rarr; Export Library saves all of it to a single file. <a href="https://github.com/Williamdiao48/Personal-Library/blob/main/docs/install.md">Full install notes</a></p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="/">williamdiao.com</a>
+      <a href="https://github.com/Williamdiao48/Personal-Library">GitHub</a>
+    </footer>
+
+    <script src="/comet-demo/library-download.js?v=download-3" defer></script>
+    <script src="./script.js?v=1" defer></script>
+  </body>
+</html>

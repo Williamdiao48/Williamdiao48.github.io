@@ -1,0 +1,61 @@
+/* Personal Library download buttons, shared by the homepage and /personal-library/.
+   Filled in by library-download.js. Selectors are scoped to .library-download so page
+   styles like `.work-list p` don't override them. */
+.library-download .download-heading { margin: 0 0 .75rem; color: #e1ecf5; font-size: .9375rem; font-weight: 500; }
+.library-download .download-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+  max-width: 30rem;
+}
+.library-download .download-option {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  min-height: 4rem;
+  padding: .8rem 1rem;
+  border: 1px solid rgb(180 213 239 / .18);
+  border-radius: 6px;
+  color: #d4e3ef;
+  text-decoration: none;
+  transition: border-color .15s, background-color .15s;
+}
+/* The visitor's own platform: same shape, a little brighter. */
+.library-download .download-option.is-suggested {
+  border-color: rgb(180 213 239 / .45);
+  background: rgb(180 213 239 / .06);
+  color: #f4f7fb;
+}
+.library-download .download-option:hover,
+.library-download .download-option:focus-visible {
+  border-color: #f4a7c4;
+  background: rgb(244 167 196 / .06);
+}
+.library-download .download-icon { flex: 0 0 1.25rem; width: 1.25rem; height: 1.25rem; fill: currentColor; }
+.library-download .download-arrow {
+  flex: 0 0 1.1rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-left: auto;
+  fill: none;
+  stroke: #7f9ab0;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.library-download .download-option:hover .download-arrow,
+.library-download .download-option:focus-visible .download-arrow,
+.library-download .download-option.is-suggested .download-arrow { stroke: currentColor; }
+.library-download .download-label { display: flex; flex-direction: column; gap: .15rem; min-width: 0; line-height: 1.2; }
+.library-download .download-label strong { font-size: .9375rem; font-weight: 500; }
+.library-download .download-label span { color: #7f9ab0; font-family: 'DM Mono', monospace; font-size: .75rem; }
+.library-download .download-note { margin: .9rem 0 0; color: #7f9ab0; font-size: .875rem; }
+.library-download .download-note a { color: #a6c2d8; text-underline-offset: .25em; }
+.library-download .download-note a:hover,
+.library-download .download-note a:focus-visible { color: #f4a7c4; }
+
+@media (max-width: 720px) {
+  /* One button per line: two columns left no room for the label beside the arrow. */
+  .library-download .download-grid { grid-template-columns: 1fr; gap: .6rem; }
+  .library-download .download-option { min-height: 3.5rem; }
+}
