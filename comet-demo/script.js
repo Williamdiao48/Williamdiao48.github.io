@@ -406,10 +406,45 @@ function drawSoftPlume(context, strand, maxWidth, colors, blur, alpha = 1) {
   context.restore();
 }
 
+// Blurring hundreds of tiny shapes one at a time costs a full blur pass each, which pinned
+// the GPU for seconds on every load. Instead, draw a group of shapes sharp onto a scratch
+// layer, then blur that layer once. Screen blending makes the result visually identical.
+let scratch = null;
+function scratchLayer() {
+  if (!scratch) scratch = document.createElement('canvas').getContext('2d');
+  scratch.canvas.width = Math.round(width * ratio); // resizing also clears it
+  scratch.canvas.height = Math.round(height * ratio);
+  scratch.setTransform(ratio, 0, 0, ratio, 0, 0);
+  return scratch;
+}
+function releaseScratchLayer() {
+  if (scratch) scratch.canvas.width = scratch.canvas.height = 0;
+}
+function screenLayer(context, layer, blur = 0) {
+  context.save();
+  context.setTransform(1, 0, 0, 1, 0, 0);
+  context.globalCompositeOperation = 'screen';
+  // Canvas blur radii are in device pixels, matching the per-shape blurs this replaces.
+  context.filter = blur ? `blur(${blur}px)` : 'none';
+  context.drawImage(layer.canvas, 0, 0);
+  context.restore();
+}
+
 function drawStreaks(context, time) {
+  // Each streak used shadowBlur in its own colour, so its glow is just a blurred copy of
+  // itself (shadow sigma = shadowBlur / 2): wide streaks glow at 6, thin ones at 2.
+  for (const [isWide, shadowBlur] of [[true, 6], [false, 2]]) {
+    const layer = scratchLayer();
+    fillStreaks(layer, streaks.filter(streak => (streak.width > 5) === isWide), time);
+    screenLayer(context, layer, shadowBlur / 2);
+    screenLayer(context, layer);
+  }
+}
+
+function fillStreaks(context, group, time) {
   context.save();
   context.globalCompositeOperation = 'screen';
-  for (const streak of streaks) {
+  for (const streak of group) {
     traceRibbon(context, streak, streak.width, streak.taper, time, 24);
     const flicker = .95 + Math.sin(time * .0009 + streak.phase) * .05;
     context.globalAlpha = streak.alpha * flicker;
@@ -422,18 +457,16 @@ function drawStreaks(context, time) {
     fade.addColorStop(.84, colorWithAlpha(streak.color, .76));
     fade.addColorStop(1, colorWithAlpha(streak.color, 0));
     context.fillStyle = fade;
-    context.shadowBlur = streak.width > 5 ? 6 : 2;
-    context.shadowColor = streak.color;
     context.fill();
   }
   context.restore();
 }
 
-function drawBodyTexture(context, time) {
+function drawBodyTexture(target, time) {
+  const context = scratchLayer();
   context.save();
   context.globalCompositeOperation = 'screen';
   context.lineCap = 'round';
-  context.filter = 'blur(1.2px)';
   for (const mark of bodyMarks) {
     const p = disturbedTrailPoint(mark.u, mark.strand);
     const n = trailNormal(mark.u, mark.strand);
@@ -454,6 +487,7 @@ function drawBodyTexture(context, time) {
     context.stroke();
   }
   context.restore();
+  screenLayer(target, context, 1.2);
 }
 
 function drawScatterMarks(context, time) {
@@ -1027,6 +1061,7 @@ function resize() {
   const wasPointerActive = pointer.active;
   pointer.active = false;
   drawCometArtwork(ctx, 0);
+  releaseScratchLayer();
   pointer.active = wasPointerActive;
   drawForeground(foregroundCtx);
   render(performance.now(), 1);
@@ -1130,7 +1165,12 @@ reducedMotion.addEventListener('change', () => {
   if (reducedMotion.matches) stopAnimation();
   else startAnimation();
 });
-window.addEventListener('resize', resize, { passive: true });
+// Re-baking the sky is the expensive step, so wait until the window stops changing size.
+let resizeTimer = 0;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(resize, 150);
+}, { passive: true });
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) stopAnimation();
   else startAnimation();
