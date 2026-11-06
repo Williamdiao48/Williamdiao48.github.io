@@ -128,6 +128,52 @@ dd a { text-underline-offset: .3em; }
 .spotify-link { display: grid; place-items: center; flex: 0 0 2.75rem; width: 2.75rem; height: 2.75rem; color: #d4e9f3; font-size: 1.1rem; text-decoration: none; }
 .spotify-link:hover, .spotify-link:focus-visible { color: #fff; }
 .spotify-link[hidden] { display: none; }
+
+/* Work: same palette and label | value rhythm as the hero's update rows. */
+.work {
+  padding: clamp(4rem, 10vw, 7rem) clamp(1.4rem, 9vw, 10rem) clamp(5rem, 12vw, 9rem);
+  background: #07131f;
+}
+.work h2 {
+  margin: 0 0 2rem;
+  font-size: 2.25rem;
+  font-weight: 500;
+  letter-spacing: -.04em;
+}
+.work-list {
+  max-width: 52rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgb(180 213 239 / .14);
+}
+.work-list li {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid rgb(180 213 239 / .14);
+}
+.work-list p { margin: 0; max-width: 38rem; color: #b9c9d8; line-height: 1.55; }
+.work-list .work-kind {
+  padding-top: .3rem;
+  color: #a4bcd0;
+  font-family: 'DM Mono', monospace;
+  font-size: .8125rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.work-list h3 { margin: 0 0 .5rem; font-size: 1.25rem; font-weight: 500; letter-spacing: -.01em; }
+.work-list h3 a { color: #f4f7fb; text-decoration: none; }
+.work-list h3 a:hover,
+.work-list h3 a:focus-visible { color: #f4a7c4; text-decoration: underline; text-underline-offset: .3em; }
+.work-list .work-stack {
+  margin-top: .75rem;
+  color: #7f9ab0;
+  font-family: 'DM Mono', monospace;
+  font-size: .8125rem;
+}
+
 @media (max-width: 720px) {
   .hero { padding: 8rem 1.4rem 2.5rem; align-items: flex-end; }
   .hero-content { width: 100%; }
@@ -136,6 +182,9 @@ dd a { text-underline-offset: .3em; }
   .updates { margin-top: 1.8rem; }
   .updates > div { grid-template-columns: 1fr; gap: .35rem; padding: .55rem 0; }
   .listening-row dt { padding-top: 0; }
+  .work h2 { font-size: 1.875rem; margin-bottom: 1.5rem; }
+  .work-list li { grid-template-columns: 1fr; gap: .5rem; padding: 1.5rem 0; }
+  .work-list .work-kind { padding-top: 0; }
   /* The text sits over the lit skyline here, so darken the lower part of the scene behind it. */
   .scene-vignette {
     background:

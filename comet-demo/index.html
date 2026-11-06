@@ -18,7 +18,7 @@
     <meta property="og:image:alt" content="William Diao's name beside a comet streaking over a night city skyline." />
     <meta name="twitter:card" content="summary_large_image" />
     <title>William Diao</title>
-    <link rel="stylesheet" href="./styles.css?v=readable-1" />
+    <link rel="stylesheet" href="./styles.css?v=work-1" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -32,6 +32,8 @@
         <div class="hero-content">
           <h1 id="hero-title">William<br />Diao</h1>
           <nav class="contact-links" aria-label="Contact links">
+            <a href="#work">work</a>
+            <span aria-hidden="true">·</span>
             <a href="https://github.com/Williamdiao48">github</a>
             <span aria-hidden="true">·</span>
             <a href="mailto:hello@williamdiao.com">email</a>
@@ -52,6 +54,44 @@
             </dd></div>
           </dl>
         </div>
+      </section>
+
+      <section class="work" id="work" aria-labelledby="work-title">
+        <h2 id="work-title">Work</h2>
+        <ol class="work-list">
+          <li>
+            <p class="work-kind">Desktop app</p>
+            <div>
+              <h3><a href="https://github.com/Williamdiao48/Personal-Library">Personal Library</a></h3>
+              <p>Saves articles, web serials, EPUBs and PDFs into one library you can read offline, with highlights, notes and full-text search. Everything is stored locally; sync between computers is opt-in.</p>
+              <p class="work-stack">TypeScript, Electron, React</p>
+            </div>
+          </li>
+          <li>
+            <p class="work-kind">Trading bot</p>
+            <div>
+              <h3><a href="https://github.com/Williamdiao48/Kalshi-bot">Kalshi bot</a></h3>
+              <p>Matches live public data, mostly weather forecasts, to open Kalshi prediction markets. Its LightGBM models are judged on simulated bets placed before each market settles: 72% won across 2,447 markets.</p>
+              <p class="work-stack">Python, LightGBM</p>
+            </div>
+          </li>
+          <li>
+            <p class="work-kind">Search engine</p>
+            <div>
+              <h3><a href="https://github.com/Williamdiao48/Flight-Itinerary-Creator">Flight Itinerary Creator</a></h3>
+              <p>Treats live flight segments as a graph and plans multi-leg trips with A* search, including connections airlines don&rsquo;t sell as one route. Results can be re-ranked by price or time without another API call.</p>
+              <p class="work-stack">C++, Python, FastAPI, JavaScript</p>
+            </div>
+          </li>
+          <li>
+            <p class="work-kind">ML research</p>
+            <div>
+              <h3><a href="https://github.com/Williamdiao48/twitch-emote-prediction">Twitch emote prediction</a></h3>
+              <p>Predicts how Twitch chat will react to a 15-second clip from its video and audio alone, combining V-JEPA 2 and Whisper embeddings with cross-attention. Built with ACM AI at UCLA.</p>
+              <p class="work-stack">Python, PyTorch</p>
+            </div>
+          </li>
+        </ol>
       </section>
     </main>
 
