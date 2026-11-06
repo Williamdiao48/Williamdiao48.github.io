@@ -307,13 +307,18 @@ function trailPoint(u, strand) {
   let x = mix(headX, tailX, u) + dy / length * sweep;
   let y = mix(headY, tailY, u) - dx / length * sweep;
   // Colored trails stay beside the light point, then fan out farther overhead.
+  // The ribbons are drawn at fixed pixel widths, so the gap between strands
+  // stops growing past a laptop-sized screen; otherwise wide displays pull the
+  // comet apart into three separate lines.
   const separation = .85 + .15 * u * u * (3 - 2 * u);
+  const spreadX = Math.min(width, 1440);
+  const spreadY = Math.min(height, 900);
   if (strand === 1) {
-    x += width * (.009 + .024 * u) * separation;
-    y += height * (.018 + .018 * u) * separation;
+    x += spreadX * (.009 + .024 * u) * separation;
+    y += spreadY * (.018 + .018 * u) * separation;
   } else if (strand === 2) {
-    x -= width * (.014 + .035 * u) * separation;
-    y -= height * (.012 + .019 * u) * separation;
+    x -= spreadX * (.014 + .035 * u) * separation;
+    y -= spreadY * (.012 + .019 * u) * separation;
   }
   return { x, y };
 }
