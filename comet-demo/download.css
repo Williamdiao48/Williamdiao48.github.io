@@ -20,12 +20,15 @@
   text-decoration: none;
   transition: border-color .15s, background-color .15s;
 }
-/* The visitor's own platform: same shape, a little brighter. */
+/* The visitor's own platform is listed first and gets .is-suggested from library-download.js.
+   The highlight is off for now so all four buttons look the same; uncomment to bring it back
+   (and the matching .download-arrow line below).
 .library-download .download-option.is-suggested {
   border-color: rgb(180 213 239 / .45);
   background: rgb(180 213 239 / .06);
   color: #f4f7fb;
 }
+*/
 .library-download .download-option:hover,
 .library-download .download-option:focus-visible {
   border-color: #f4a7c4;
@@ -44,8 +47,8 @@
   stroke-linejoin: round;
 }
 .library-download .download-option:hover .download-arrow,
-.library-download .download-option:focus-visible .download-arrow,
-.library-download .download-option.is-suggested .download-arrow { stroke: currentColor; }
+.library-download .download-option:focus-visible .download-arrow { stroke: currentColor; }
+/* .library-download .download-option.is-suggested .download-arrow { stroke: currentColor; } */
 .library-download .download-label { display: flex; flex-direction: column; gap: .15rem; min-width: 0; line-height: 1.2; }
 .library-download .download-label strong { font-size: .9375rem; font-weight: 500; }
 .library-download .download-label span { color: #7f9ab0; font-family: 'DM Mono', monospace; font-size: .75rem; }
