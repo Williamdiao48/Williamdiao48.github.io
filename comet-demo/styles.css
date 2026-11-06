@@ -173,6 +173,58 @@ dd a { text-underline-offset: .3em; }
   font-family: 'DM Mono', monospace;
   font-size: .8125rem;
 }
+.work-download { margin-top: 1.5rem; }
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+  max-width: 30rem;
+}
+.work-list .download-option {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  min-height: 4rem;
+  padding: .8rem 1rem;
+  border: 1px solid rgb(180 213 239 / .18);
+  border-radius: 6px;
+  color: #d4e3ef;
+  text-decoration: none;
+  transition: border-color .15s, background-color .15s;
+}
+/* The visitor's own platform: same shape, a little brighter. */
+.work-list .download-option.is-suggested {
+  border-color: rgb(180 213 239 / .45);
+  background: rgb(180 213 239 / .06);
+  color: #f4f7fb;
+}
+.work-list .download-option:hover,
+.work-list .download-option:focus-visible {
+  border-color: #f4a7c4;
+  background: rgb(244 167 196 / .06);
+}
+.work-list .download-heading { margin-bottom: .75rem; color: #e1ecf5; font-size: .9375rem; font-weight: 500; }
+.download-icon { flex: 0 0 1.25rem; width: 1.25rem; height: 1.25rem; fill: currentColor; }
+.download-arrow {
+  flex: 0 0 1.1rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-left: auto;
+  fill: none;
+  stroke: #7f9ab0;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.download-option:hover .download-arrow,
+.download-option:focus-visible .download-arrow,
+.download-option.is-suggested .download-arrow { stroke: currentColor; }
+.download-label { display: flex; flex-direction: column; gap: .15rem; min-width: 0; line-height: 1.2; }
+.download-label strong { font-size: .9375rem; font-weight: 500; }
+.download-label span { color: #7f9ab0; font-family: 'DM Mono', monospace; font-size: .75rem; }
+.work-list .download-note { margin-top: .9rem; color: #7f9ab0; font-size: .875rem; }
+.download-note a { color: #a6c2d8; text-underline-offset: .25em; }
+.download-note a:hover, .download-note a:focus-visible { color: #f4a7c4; }
 
 @media (max-width: 720px) {
   .hero { padding: 8rem 1.4rem 2.5rem; align-items: flex-end; }
@@ -185,6 +237,9 @@ dd a { text-underline-offset: .3em; }
   .work h2 { font-size: 1.875rem; margin-bottom: 1.5rem; }
   .work-list li { grid-template-columns: 1fr; gap: .5rem; padding: 1.5rem 0; }
   .work-list .work-kind { padding-top: 0; }
+  /* One button per line: two columns left no room for the label beside the arrow. */
+  .download-grid { grid-template-columns: 1fr; gap: .6rem; }
+  .work-list .download-option { min-height: 3.5rem; }
   /* The text sits over the lit skyline here, so darken the lower part of the scene behind it. */
   .scene-vignette {
     background:
