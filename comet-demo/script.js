@@ -6,7 +6,8 @@ const foregroundCanvas = document.querySelector('#sky-foreground');
 const foregroundCtx = foregroundCanvas.getContext('2d');
 const hero = document.querySelector('.hero');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-document.querySelector('#year').textContent = new Date().getFullYear();
+// Only the thin animated wisps use this swirl; the painted comet stays fixed.
+const swirl = { x: 0, y: 0, radius: 175, strength: 0 };
 
 let width = 0;
 let height = 0;
@@ -29,6 +30,12 @@ const interactiveWisps = [
   { strand: 1, start: .19, end: .8, offset: 13, spread: 16, phase: 3.7, width: .7, color: '203, 132, 255', alpha: .22 },
   { strand: 2, start: .045, end: .7, offset: -4, spread: -12, phase: 2.9, width: 1.05, color: '117, 218, 255', alpha: .3 },
   { strand: 2, start: .13, end: .82, offset: -12, spread: -15, phase: 5.2, width: .7, color: '98, 151, 255', alpha: .23 },
+  { strand: 0, start: .07, end: .58, offset: -25, spread: -18, phase: 1.8, width: .65, color: '139, 225, 255', alpha: .23 },
+  { strand: 1, start: .11, end: .64, offset: 24, spread: 17, phase: 4.6, width: .7, color: '248, 151, 223', alpha: .22 },
+  { strand: 2, start: .25, end: .93, offset: -31, spread: -12, phase: 3.4, width: .55, color: '111, 189, 255', alpha: .20 },
+  { strand: 0, start: .32, end: .9, offset: 28, spread: 13, phase: 5.9, width: .5, color: '194, 231, 255', alpha: .18 },
+  { strand: 1, start: .04, end: .43, offset: 17, spread: 23, phase: .8, width: .6, color: '245, 166, 236', alpha: .21 },
+  { strand: 2, start: .04, end: .48, offset: -20, spread: -24, phase: 2.7, width: .75, color: '114, 217, 249', alpha: .24 },
 ];
 const moteLayouts = [
   { u: .025, strand: 0, dx: -54, dy: -37, size: 29, color: 'blue' },
@@ -292,16 +299,20 @@ function trailPoint(u, strand) {
   const headY = height * (mobile ? .37 : .52);
   const tailX = width * (mobile ? 1.09 : .96);
   const tailY = height * (mobile ? -.15 : -.12);
-  const sweep = Math.sin(u * Math.PI);
-  let x = mix(headX, tailX, u) - width * .025 * sweep;
-  let y = mix(headY, tailY, u) - height * .020 * sweep;
+  // A shallow quadratic arc keeps the trail's direction changing evenly.
+  const dx = tailX - headX;
+  const dy = tailY - headY;
+  const length = Math.hypot(dx, dy);
+  const sweep = width * .012 * 4 * u * (1 - u);
+  let x = mix(headX, tailX, u) + dy / length * sweep;
+  let y = mix(headY, tailY, u) - dx / length * sweep;
   // Colored trails stay beside the light point, then fan out farther overhead.
-  const separation = .85 + .15 * Math.min(1, u / .38);
+  const separation = .85 + .15 * u * u * (3 - 2 * u);
   if (strand === 1) {
-    x += (width * (.009 + .024 * u) + Math.sin(u * 10) * 8 * u) * separation;
+    x += width * (.009 + .024 * u) * separation;
     y += height * (.018 + .018 * u) * separation;
   } else if (strand === 2) {
-    x -= (width * (.014 + .035 * u) + Math.sin(u * 8 + 2) * 10 * u) * separation;
+    x -= width * (.014 + .035 * u) * separation;
     y -= height * (.012 + .019 * u) * separation;
   }
   return { x, y };
@@ -309,16 +320,36 @@ function trailPoint(u, strand) {
 
 function disturbedTrailPoint(u, strand) {
   const p = trailPoint(u, strand);
-  if (!pointer.active || reducedMotion.matches) return p;
-  const dx = p.x - pointer.x;
-  const dy = p.y - pointer.y;
-  const distance = Math.hypot(dx, dy);
-  if (distance >= 145) return p;
-  const push = Math.pow(1 - distance / 145, 2) * 37;
-  return {
-    x: p.x + dx / (distance || 1) * push,
-    y: p.y + dy / (distance || 1) * push,
-  };
+  return reducedMotion.matches ? p : swirlPoint(p);
+}
+
+function swirlPoint(p) {
+  if (!swirl.strength) return p;
+  const dx = p.x - swirl.x;
+  const dy = p.y - swirl.y;
+  const angle = swirl.strength * Math.exp(-2 * (dx * dx + dy * dy) / (swirl.radius * swirl.radius));
+  const c = Math.cos(angle), s = Math.sin(angle);
+  return { x: swirl.x + c * dx - s * dy, y: swirl.y + s * dx + c * dy };
+}
+
+function updateSwirl(time, delta) {
+  if (reducedMotion.matches) { swirl.strength = 0; return; }
+  swirl.radius = width < 720 ? 125 : 175;
+  let target = 0;
+  if (pointer.active) {
+    let distance = Infinity;
+    for (let i = 0; i <= 20; i++) {
+      const p = trailPoint(i / 20, 0);
+      distance = Math.min(distance, Math.hypot(p.x - pointer.x, p.y - pointer.y));
+    }
+    const proximity = Math.max(0, 1 - distance / swirl.radius);
+    target = proximity * proximity * (.60 + Math.sin(time * .0013) * .10);
+    const follow = 1 - Math.exp(-.18 * delta);
+    swirl.x += (pointer.x - swirl.x) * follow;
+    swirl.y += (pointer.y - swirl.y) * follow;
+  }
+  swirl.strength += (target - swirl.strength) * (1 - Math.exp(-.12 * delta));
+  if (Math.abs(swirl.strength) < .001 && target === 0) swirl.strength = 0;
 }
 
 function trailNormal(u, strand) {
@@ -476,7 +507,7 @@ function ribbonPoint(ribbon, progress, time) {
   const p = disturbedTrailPoint(u, ribbon.strand);
   const n = trailNormal(u, ribbon.strand);
   const motion = reducedMotion.matches ? 0 : time;
-  const separation = ribbon.whiteCore ? 1 : .85 + .15 * Math.min(1, u / .38);
+  const separation = ribbon.whiteCore ? 1 : .85 + .15 * u * u * (3 - 2 * u);
   const dance = ribbon.whiteCore ? 0 : (
     Math.sin(u * 12 + ribbon.phase + motion * .00085) * ribbon.waver
     + Math.sin(u * 27 - ribbon.phase * 1.4 - motion * .0013) * ribbon.waver * .42) * separation;
@@ -860,7 +891,10 @@ function drawInteractiveWisps(context, time) {
       const u = mix(wisp.start, wisp.end, progress);
       const point = disturbedTrailPoint(u, wisp.strand);
       const normal = trailNormal(u, wisp.strand);
-      const sway = reducedMotion.matches ? 0 : Math.sin(time * .00075 + u * 19 + wisp.phase) * 2.6 * Math.sin(progress * Math.PI);
+      const sway = reducedMotion.matches ? 0 : (
+        Math.sin(time * .00075 + u * 19 + wisp.phase) * 5
+        + Math.sin(time * .0012 - u * 11 + wisp.phase) * 1.7
+      ) * Math.sin(progress * Math.PI);
       const side = (wisp.offset + wisp.spread * progress + sway) * mobileScale;
       const x = point.x + normal.x * side;
       const y = point.y + normal.y * side;
@@ -985,6 +1019,7 @@ function resize() {
   sizeCanvas(canvas, ctx);
   sizeCanvas(motionCanvas, motionCtx);
   sizeCanvas(foregroundCanvas, foregroundCtx);
+  swirl.strength = 0;
 
   drawBase(ctx);
   makeParticles();
@@ -998,6 +1033,7 @@ function resize() {
 }
 
 function render(time, delta) {
+  updateSwirl(time, delta);
   motionCtx.clearRect(0, 0, width, height);
   drawCometParticles(motionCtx, time, delta);
 }

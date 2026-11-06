@@ -4,21 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#07131f" />
-    <meta name="description" content="William Diao — software, writing, and things in progress." />
-    <title>William Diao — comet study</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <meta name="description" content="William Diao's personal website." />
+    <title>William Diao</title>
+    <link rel="stylesheet" href="./styles.css?v=inline-contact-1" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-
-    <header class="site-header">
-      <a class="monogram" href="#top" aria-label="Back to top">wd<span class="monogram-dot">.</span></a>
-      <nav aria-label="Primary navigation">
-        <a href="/personal-library/">library</a>
-        <a href="https://github.com/Williamdiao48">github</a>
-        <a href="mailto:hello@williamdiao.com">email</a>
-      </nav>
-    </header>
 
     <main id="main">
       <section class="hero" id="top" aria-labelledby="hero-title">
@@ -27,35 +18,32 @@
         <canvas id="sky-foreground" aria-hidden="true"></canvas>
         <div class="scene-vignette" aria-hidden="true"></div>
         <div class="hero-content">
-          <p class="eyebrow">A small corner of the internet</p>
-          <h1 id="hero-title">Hi, I’m<br />William.</h1>
-          <p class="intro-copy">I build software. Sometimes I write things.</p>
-          <div class="hero-links">
-            <a class="primary-link" href="/personal-library/">personal library <span aria-hidden="true">↗</span></a>
-            <a class="quiet-link" href="#about">a little more <span aria-hidden="true">↓</span></a>
-          </div>
-        </div>
-        <p class="interaction-hint"><span class="hint-spark" aria-hidden="true">✳</span> move through the comet</p>
-        <span class="scene-label" aria-hidden="true">a sky study · 01</span>
-      </section>
-
-      <section class="about" id="about" aria-labelledby="about-title">
-        <div class="about-heading">
-          <span class="section-number">01 / for now</span>
-          <h2 id="about-title">Not much yet.</h2>
-        </div>
-        <div class="about-body">
-          <p>A project, a mostly empty reading list, and a possible future blog.</p>
-          <dl>
-            <div><dt>building</dt><dd><a href="/personal-library/">Personal Library ↗</a></dd></div>
-            <div><dt>reading</dt><dd>still deciding</dd></div>
-            <div><dt>listening</dt><dd>changes constantly</dd></div>
+          <h1 id="hero-title">William<br />Diao</h1>
+          <nav class="contact-links" aria-label="Contact links">
+            <a href="https://github.com/Williamdiao48">github</a>
+            <span aria-hidden="true">·</span>
+            <a href="mailto:hello@williamdiao.com">email</a>
+          </nav>
+          <dl class="updates" aria-label="Current updates">
+            <div><dt>building</dt><dd>Personal Library</dd></div>
+            <div><dt>reading</dt><dd>Mistborn: The Well of Ascension</dd></div>
+            <div class="listening-row"><dt>listening</dt><dd>
+              <div class="spotify-card" id="spotify-card" data-endpoint="https://spotify-fetch-worker.williamdiao03.workers.dev/now-playing" aria-live="polite">
+                <div class="spotify-cover" id="spotify-cover" aria-hidden="true">♫</div>
+                <div class="spotify-copy">
+                  <span class="spotify-status" id="spotify-status">Spotify</span>
+                  <strong id="spotify-title">Loading last track…</strong>
+                  <span id="spotify-artist"></span>
+                </div>
+                <a id="spotify-link" class="spotify-link" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" hidden aria-label="Open track on Spotify">↗</a>
+              </div>
+            </dd></div>
           </dl>
         </div>
       </section>
     </main>
 
-    <footer><span>William Diao <span id="year"></span></span><a href="#top">back to the sky ↑</a></footer>
-    <script src="./script.js"></script>
+    <script src="./script.js?v=comet-wisps-2"></script>
+    <script src="./spotify-player.js?v=last-track-1" defer></script>
   </body>
 </html>
